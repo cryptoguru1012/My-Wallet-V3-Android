@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/primary_navy_dark">
+
+    <TextView
+        android:id="@+id/textview_selected_currency"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:background="?attr/selectableItemBackground"
+        android:drawablePadding="8dp"
+        android:gravity="start|center_vertical"
+        android:minHeight="@dimen/action_bar_height"
+        android:padding="8dp"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        tools:drawableLeft="@drawable/vector_bitcoin_white"
+        tools:drawableRight="@drawable/vector_expand_more"
+        tools:text="Selected Currency" />
+
+    <FrameLayout
+        android:id="@+id/content_frame"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:id="@+id/linear_layout_coin_selection"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:orientation="vertical"
+            android:paddingBottom="8dp"
+            tools:ignore="UselessParent">
+
+            <TextView
+                android:id="@+id/textview_bitcoin"
+                style="@style/CryptoCurrencySelectorTextView"
+                android:text="@string/bitcoin"
+                android:drawableStart="@drawable/vector_bitcoin_white"/>
+
+            <TextView
+                android:id="@+id/textview_bitcoin_cash"
+                style="@style/CryptoCurrencySelectorTextView"
+                android:text="@string/bitcoin_cash"
+                android:drawableStart="@drawable/vector_bitcoin_cash_white" />
+
+        </LinearLayout>
+    </FrameLayout>
+</RelativeLayout>

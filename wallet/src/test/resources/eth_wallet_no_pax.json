@@ -1,0 +1,16 @@
+{
+  "ethereum": {
+  "has_seen":false,
+  "default_account_idx":0,
+  "accounts":[
+    {
+      "archived":false,
+      "label":"My Ether Wallet",
+      "addr":"0x351e4184a9abe6b71a2a7a71c2628c47cc861e51",
+      "correct":true
+    }
+  ],
+  "tx_notes":{},
+  "last_tx_timestamp":0
+  }
+}

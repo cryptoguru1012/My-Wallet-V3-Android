@@ -1,0 +1,30 @@
+apply plugin: 'kotlin'
+apply from: '../quality/jacocoKtLibrary.gradle'
+
+sourceCompatibility = Versions.javaCompatibilityVersion
+targetCompatibility = Versions.javaCompatibilityVersion
+
+dependencies {
+    implementation project(':balance')
+
+    // RxJava
+    implementation Libraries.rxJava
+    implementation Libraries.rxKotlin
+    // Networking
+    implementation Libraries.okHttpMock
+    implementation Libraries.retrofit
+    implementation Libraries.moshi
+    implementation Libraries.retrofitRxMoshiConverter
+    implementation Libraries.retrofitRxJavaAdapter
+    implementation Libraries.mockWebServer
+    implementation(Libraries.mockitoKotlin) {
+        ['kotlin-stdlib', 'kotlin-reflect'].each { exclude module: it }
+    }
+
+    // Injection
+    implementation Libraries.koinTest
+
+    // Unit Test dependencies
+    implementation Libraries.junit
+    implementation Libraries.kluent
+}

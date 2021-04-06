@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/cardLayout"
+    style="@style/DashboardCard">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/DashboardCardLayout.Asset">
+
+        <androidx.constraintlayout.widget.Guideline
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/guideline"
+            app:layout_constraintGuide_percent="0.60"
+            android:orientation="vertical"/>
+
+        <ImageView
+            android:id="@+id/icon"
+            android:layout_width="@dimen/asset_icon_size"
+            android:layout_height="@dimen/asset_icon_size"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/vector_bitcoin_colored"/>
+
+        <TextView
+            android:id="@+id/currency"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/Text.Standard.20"
+            android:layout_marginStart="@dimen/small_margin"
+            app:layout_constraintStart_toEndOf="@id/icon"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Bitcoin"/>
+
+        <com.elyeproj.loaderviewlibrary.LoaderTextView
+            android:id="@+id/fiat_balance"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            style="@style/Text.Standard.16"
+            android:layout_marginStart="@dimen/small_margin"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="@dimen/small_margin"
+            app:layout_constraintStart_toEndOf="@id/icon"
+            app:layout_constraintTop_toBottomOf="@id/currency"
+            app:layout_constraintEnd_toStartOf="@id/guideline"
+            app:width_weight="0.9"
+            app:height_weight="0.8"
+            app:use_gradient="true"
+            tools:text="$15,879.90" />
+
+        <com.elyeproj.loaderviewlibrary.LoaderTextView
+            android:id="@+id/crypto_balance"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            style="@style/Text.Light.14"
+            android:layout_marginStart="@dimen/small_margin"
+            android:layout_marginTop="2dp"
+            android:layout_marginEnd="@dimen/small_margin"
+            app:layout_constraintStart_toEndOf="@id/icon"
+            app:layout_constraintTop_toBottomOf="@id/fiat_balance"
+            app:layout_constraintEnd_toStartOf="@id/guideline"
+            app:width_weight="0.9"
+            app:height_weight="0.8"
+            app:use_gradient="true"
+            tools:text="1.638192 BTC" />
+
+        <com.robinhood.spark.SparkView
+            android:id="@+id/sparkview"
+            android:layout_width="0dp"
+            android:layout_height="22dp"
+            android:layout_marginStart="@dimen/small_margin"
+            android:layout_marginEnd="@dimen/small_margin"
+            app:layout_constraintStart_toEndOf="@id/guideline"
+            app:layout_constraintTop_toTopOf="@id/currency"
+            app:layout_constraintBottom_toBottomOf="@id/currency"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+        <View
+            android:id="@+id/separator"
+            android:layout_width="1dp"
+            android:layout_height="0dp"
+            android:background="@color/grey_000"
+            app:layout_constraintStart_toEndOf="@id/guideline"
+            app:layout_constraintEnd_toEndOf="@id/guideline"
+            app:layout_constraintTop_toTopOf="@id/price"
+            app:layout_constraintBottom_toBottomOf="@id/price_delta"/>
+
+        <com.elyeproj.loaderviewlibrary.LoaderTextView
+            android:id="@+id/price"
+            android:layout_width="0dp"
+            android:layout_height="20dp"
+            style="@style/Text.Standard.16"
+            app:autoSizeTextType="uniform"
+            app:autoSizeMinTextSize="8sp"
+            android:ellipsize="none"
+            app:autoSizeMaxTextSize="16sp"
+            android:gravity="center_vertical"
+            app:autoSizeStepGranularity="1sp"
+            android:layout_marginEnd="7dp"
+            android:layout_marginStart="@dimen/small_margin"
+            app:layout_constraintStart_toEndOf="@id/guideline"
+            app:layout_constraintTop_toTopOf="@id/fiat_balance"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:width_weight="0.9"
+            app:height_weight="0.8"
+            app:use_gradient="true"
+            tools:text="15,879.90" />
+
+        <com.elyeproj.loaderviewlibrary.LoaderTextView
+            android:id="@+id/price_delta"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            style="@style/Text.Light.14"
+            android:layout_marginEnd="@dimen/small_margin"
+            android:layout_marginStart="@dimen/small_margin"
+            app:layout_constraintStart_toEndOf="@id/guideline"
+            app:layout_constraintTop_toTopOf="@id/crypto_balance"
+            app:width_weight="0.9"
+            app:height_weight="0.8"
+            app:use_gradient="true"
+            tools:text="1.56%" />
+
+        <com.elyeproj.loaderviewlibrary.LoaderTextView
+            android:id="@+id/price_delta_interval"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            style="@style/Text.Light.14"
+            android:layout_marginEnd="7dp"
+            android:layout_marginStart="3dp"
+            app:layout_constraintStart_toEndOf="@id/price_delta"
+            app:layout_constraintTop_toTopOf="@id/price_delta"
+            app:layout_constraintBottom_toBottomOf="@id/price_delta"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:width_weight="0.9"
+            app:height_weight="0.8"
+            app:use_gradient="true"
+            tools:text="24hrs" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/error_msg"
+            style="@style/Text.Error"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="@id/currency"
+            app:layout_constraintTop_toBottomOf="@id/currency"
+            app:layout_constraintBottom_toBottomOf="parent"
+            tools:text="Could not load BTC at this time"
+            android:gravity="center_vertical"
+            android:drawableStart="@drawable/ic_asset_error"
+            android:drawablePadding="8dp"
+            android:padding="10dp"
+            android:visibility="gone"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.cardview.widget.CardView>

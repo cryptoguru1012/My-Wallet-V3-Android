@@ -1,0 +1,366 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+apply plugin: 'androidx.navigation.safeargs'
+apply plugin: 'com.novoda.build-properties'
+apply from: '../quality/jacocoApp.gradle'
+apply from: '../quality/ktlint.gradle'
+apply plugin: 'com.google.firebase.crashlytics'
+apply plugin: 'com.google.gms.google-services'
+apply plugin: 'kotlinx-serialization'
+
+
+buildProperties {
+    secrets {
+        using(file('secrets.properties')) | file('secretsDefaults.properties')
+    }
+}
+
+def getGitCommitHash = { ->
+    def stdout = new ByteArrayOutputStream()
+    exec {
+        commandLine 'git', 'rev-parse', '--short', 'HEAD'
+        standardOutput = stdout
+    }
+    return stdout.toString().trim()
+}
+
+android {
+    compileSdkVersion Versions.compileSdk
+    buildToolsVersion Versions.buildTools
+    dexOptions.javaMaxHeapSize "3g"
+
+    defaultConfig {
+        applicationId "piuk.blockchain.android"
+        targetSdkVersion Versions.targetSdk
+        minSdkVersion Versions.minSdk
+        versionCode Versions.versionCode
+        versionName Versions.versionName
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        vectorDrawables.useSupportLibrary = true
+        archivesBaseName = "blockchain-$versionName"
+
+        // Flag to hide or show the Contacts feature
+        buildConfigBoolean "LOG_KOIN_STARTUP", false
+        buildConfigBoolean "SKIP_VERIFF_KYC", false
+
+        buildConfigString "SHAPE_SHIFT_API_KEY", buildProperties.secrets['shapeShiftApiKey']
+
+        manifestPlaceholders = [
+                FABRIC_API_KEY: buildProperties.secrets['fabricApiKey'].string
+        ]
+
+        resConfigs 'en',
+                'de',
+                'es',
+                'fr',
+                'it',
+                'pt',
+                'pt-rBR',
+                'ru',
+                'tr'
+    }
+    buildTypes {
+        release {
+            debuggable false
+            minifyEnabled true
+            zipAlignEnabled true
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            multiDexEnabled true
+        }
+        debug {
+            multiDexEnabled true
+            buildConfigBoolean "SKIP_VERIFF_KYC", false
+        }
+    }
+    bundle {
+        language {
+            // Specifies that the app bundle should not support
+            // configuration APKs for language resources. These
+            // resources are instead packaged with each base and
+            // dynamic feature APK.
+            enableSplit = false
+        }
+        density {
+            enableSplit = true
+        }
+        abi {
+            enableSplit = true
+        }
+    }
+
+    flavorDimensions "environment"
+
+    productFlavors {
+        /**
+         * Environments
+         */
+        envProd {
+            dimension "environment"
+            manifestPlaceholders = [
+                    BACKUP_API_KEY: buildProperties.secrets['prodGoogleBackupApiKey'].string,
+                    DYNAMIC_LINK_HOST  : buildProperties.secrets['prodDynamicLink'].string,
+                    DYNAMIC_LINK_HOST_2: buildProperties.secrets['prodDynamicLink2'].string
+            ]
+            buildConfigString "EXPLORER_URL", buildProperties.secrets['prodExplorer']
+            buildConfigString "API_URL", buildProperties.secrets['prodApiServer']
+            buildConfigString "EVERYPAY_HOST_URL", buildProperties.secrets['prodEverypayHost']
+            buildConfigString "BITCOIN_WEBSOCKET_URL", buildProperties.secrets['prodBtcWebsocket']
+            buildConfigString "ETHEREUM_WEBSOCKET_URL", buildProperties.secrets['prodEthWebsocket']
+            buildConfigString "BITCOIN_CASH_WEBSOCKET_URL", buildProperties.secrets['prodBchWebsocket']
+            buildConfigString "XLM_WEBSOCKET_URL", buildProperties.secrets['prodXlmWebsocket']
+            buildConfigString "STATUS_API_URL", buildProperties.secrets['prodApiStatus']
+            buildConfigString "NABU_WEBSOCKET_URL", buildProperties.secrets['prodNabuWebsocket']
+            buildConfigString "HORIZON_URL", buildProperties.secrets['prodHorizonUrl']
+            buildConfigString "PIT_LINKING_URL", buildProperties.secrets['prodPitDoLink']
+            buildConfigString "PIT_LAUNCHING_URL", buildProperties.secrets['prodPitLaunch']
+            buildConfigString "COINS_WEBSOCKET_URL", buildProperties.secrets['prodCoinsWebsocket']
+            buildConfigField "String", "ENVIRONMENT", '"env_prod"'
+            buildConfigField "String", "VERSION_NAME_SUFFIX", "\"" + versionNameSuffix + "\""
+            buildConfigField "String", "COMMIT_HASH", "\"\""
+            buildConfigString "SIFT_ACCOUNT_ID", buildProperties.secrets['prodSiftAccount']
+            buildConfigString "SIFT_BEACON_KEY", buildProperties.secrets['prodSiftBeaconId']
+        }
+        envDev {
+            dimension "environment"
+            manifestPlaceholders = [
+                    BACKUP_API_KEY: buildProperties.secrets['devGoogleBackupApiKey'].string,
+                    DYNAMIC_LINK_HOST  : buildProperties.secrets['devDynamicLink'].string,
+                    DYNAMIC_LINK_HOST_2: buildProperties.secrets['devDynamicLink2'].string
+            ]
+            buildConfigString "EXPLORER_URL", buildProperties.secrets['devExplorer']
+            buildConfigString "API_URL", buildProperties.secrets['devApiServer']
+            buildConfigString "EVERYPAY_HOST_URL", buildProperties.secrets['stagingEverypayHost']
+            buildConfigString "BITCOIN_WEBSOCKET_URL", buildProperties.secrets['devBtcWebsocket']
+            buildConfigString "ETHEREUM_WEBSOCKET_URL", buildProperties.secrets['devEthWebsocket']
+            buildConfigString "BITCOIN_CASH_WEBSOCKET_URL", buildProperties.secrets['devBchWebsocket']
+            buildConfigString "XLM_WEBSOCKET_URL", buildProperties.secrets['devXlmWebsocket']
+            buildConfigString "NABU_WEBSOCKET_URL", buildProperties.secrets['devNabuWebsocket']
+            buildConfigString "HORIZON_URL", buildProperties.secrets['devHorizonUrl']
+            buildConfigString "PIT_LINKING_URL", buildProperties.secrets['devPitDoLink']
+            buildConfigString "PIT_LAUNCHING_URL", buildProperties.secrets['devPitLaunch']
+            buildConfigString "STATUS_API_URL", buildProperties.secrets['devApiStatus']
+            buildConfigString "COINS_WEBSOCKET_URL", buildProperties.secrets['devCoinsWebsocket']
+            buildConfigField "String", "ENVIRONMENT", '"env_dev"'
+            buildConfigField "String", "COMMIT_HASH", "\"${getGitCommitHash()}\""
+            buildConfigField "String", "VERSION_NAME_SUFFIX", "\"" + versionNameSuffix + "\""
+            buildConfigString "SIFT_ACCOUNT_ID", buildProperties.secrets['devSiftAccount']
+            buildConfigString "SIFT_BEACON_KEY", buildProperties.secrets['devSiftBeaconId']
+
+            versionNameSuffix '-dev'
+            applicationId "piuk.blockchain.android.dev"
+            resValue "string", "app_name", "BlockDev"
+        }
+        envStaging {
+            dimension "environment"
+            manifestPlaceholders = [
+                    BACKUP_API_KEY: buildProperties.secrets['stagingGoogleBackupApiKey'].string,
+                    DYNAMIC_LINK_HOST  : buildProperties.secrets['stagingDynamicLink'].string,
+                    DYNAMIC_LINK_HOST_2: buildProperties.secrets['stagingDynamicLink2'].string
+            ]
+            buildConfigString "EXPLORER_URL", buildProperties.secrets['stagingExplorer']
+            buildConfigString "API_URL", buildProperties.secrets['stagingApiServer']
+            buildConfigString "EVERYPAY_HOST_URL", buildProperties.secrets['stagingEverypayHost']
+            buildConfigString "BITCOIN_WEBSOCKET_URL", buildProperties.secrets['stagingBtcWebsocket']
+            buildConfigString "STATUS_API_URL", buildProperties.secrets['stagingApiStatus']
+            buildConfigString "ETHEREUM_WEBSOCKET_URL", buildProperties.secrets['stagingEthWebsocket']
+            buildConfigString "BITCOIN_CASH_WEBSOCKET_URL", buildProperties.secrets['stagingBchWebsocket']
+            buildConfigString "XLM_WEBSOCKET_URL", buildProperties.secrets['stagingXlmWebsocket']
+            buildConfigString "NABU_WEBSOCKET_URL", buildProperties.secrets['stagingNabuWebsocket']
+            buildConfigString "HORIZON_URL", buildProperties.secrets['stagingHorizonUrl']
+            buildConfigString "PIT_LINKING_URL", buildProperties.secrets['stagingPitDoLink']
+            buildConfigString "PIT_LAUNCHING_URL", buildProperties.secrets['stagingPitLaunch']
+            buildConfigString "COINS_WEBSOCKET_URL", buildProperties.secrets['stagingCoinsWebsocket']
+            buildConfigField "String", "ENVIRONMENT", '"env_staging"'
+            buildConfigField "String", "COMMIT_HASH", "\"${getGitCommitHash()}\""
+            buildConfigField "String", "VERSION_NAME_SUFFIX", "\"" + versionNameSuffix + "\""
+            buildConfigString "SIFT_ACCOUNT_ID", buildProperties.secrets['stagingSiftAccount']
+            buildConfigString "SIFT_BEACON_KEY", buildProperties.secrets['stagingSiftBeaconId']
+
+            versionNameSuffix '-staging'
+            applicationId "piuk.blockchain.android.staging"
+            resValue "string", "app_name", "BlockStaging"
+        }
+        envTestnet {
+            dimension "environment"
+            manifestPlaceholders = [
+                    DYNAMIC_LINK_HOST  : buildProperties.secrets['testnetDynamicLink'].string,
+                    DYNAMIC_LINK_HOST_2: buildProperties.secrets['testnetDynamicLink2'].string
+            ]
+            buildConfigString "EXPLORER_URL", buildProperties.secrets['testnetExplorer']
+            buildConfigString "API_URL", buildProperties.secrets['testnetApiServer']
+            buildConfigString "EVERYPAY_HOST_URL", buildProperties.secrets['stagingEverypayHost']
+            buildConfigString "NABU_WEBSOCKET_URL", buildProperties.secrets['testnetNabuWebsocket']
+            buildConfigString "HORIZON_URL", buildProperties.secrets['testnetHorizonUrl']
+            buildConfigString "PIT_LINKING_URL", buildProperties.secrets['testnetPitDoLink']
+            buildConfigString "STATUS_API_URL", buildProperties.secrets['testnetApiStatus']
+            buildConfigString "PIT_LAUNCHING_URL", buildProperties.secrets['testnetPitLaunch']
+            buildConfigString "COINS_WEBSOCKET_URL", buildProperties.secrets['testnetCoinsWebsocket']
+            buildConfigString "SIFT_ACCOUNT_ID", buildProperties.secrets['stagingSiftAccount']
+            buildConfigString "SIFT_BEACON_KEY", buildProperties.secrets['stagingSiftBeaconId']
+            buildConfigField "String", "ENVIRONMENT", '"env_testnet"'
+            buildConfigField "String", "COMMIT_HASH", "\"${getGitCommitHash()}\""
+            versionNameSuffix '-testnet'
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    lintOptions {
+        checkReleaseBuilds true
+        fatal 'StopShip'
+        htmlReport true
+        htmlOutput file("build/reports/lint-report.html")
+        abortOnError true
+        baseline file("lint-baseline.xml")
+    }
+
+    packagingOptions {
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/NOTICE.txt'
+        exclude 'META-INF/DEPENDENCIES.txt'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/DEPENDENCIES'
+        exclude 'META-INF/notice.txt'
+        exclude 'META-INF/license.txt'
+        exclude 'META-INF/dependencies.txt'
+        exclude 'META-INF/LGPL2.1'
+        exclude 'META-INF/rxjava.properties'
+        exclude 'jni/**'
+        exclude 'solidity/**'
+        exclude 'org.bitcoin.test.checkpoints.txt'
+        exclude 'org.bitcoin.production.checkpoints.txt'
+    }
+
+    buildFeatures {
+        dataBinding true
+        viewBinding true
+    }
+
+    testOptions {
+        // Fix for Robolectric bug when using AAPT2
+        unitTests.includeAndroidResources true
+        // Always show the result of every unit test, even if it passes.
+        unitTests.all {
+            testLogging {
+                if (System.getenv().containsKey("CIRCLE_BUILD_NUM")) {
+                    events 'skipped', 'failed'
+                } else {
+                    events 'skipped', 'failed', 'standardOut', 'standardError'
+                }
+            }
+            reports.junitXml.destination = file('../build/test-results/')
+            maxHeapSize = "1g"
+        }
+    }
+}
+
+kapt {
+    useBuildCache = true
+}
+
+androidExtensions {
+    experimental = true
+}
+
+dependencies {
+    implementation project(':coreui')
+    implementation project(':notifications')
+    implementation project(':nabu')
+    implementation project(':sunriver')
+    implementation project(':core')
+
+    api project(':coreui')
+    api project(':notifications')
+    implementation project(':veriff')
+
+    implementation Libraries.multidex
+
+    implementation Libraries.koin
+    implementation Libraries.koinAndroid
+
+    // Views
+    implementation Libraries.countryPicker
+    implementation Libraries.bottomNav
+    implementation Libraries.circleIndicator
+    implementation Libraries.charts
+    implementation Libraries.sparkline
+    implementation Libraries.cardForm
+    implementation Libraries.zxing
+    implementation Libraries.sift
+
+    // Google core
+    implementation Libraries.googlePlayCore
+
+    api Libraries.appCompat
+    implementation Libraries.navigationControllerCore
+    implementation Libraries.navigationControllerFragments
+
+    api Libraries.lifecycleViewModel
+    api Libraries.lifecycleExtensions
+
+    implementation(Libraries.googlePlayServicesBase) {
+        exclude group: 'com.android.support'
+    }
+    implementation Libraries.googlePlaces
+    implementation Libraries.biometricsApi
+
+    implementation Libraries.gson
+    implementation Libraries.kotlinJson
+
+    // Utils
+    implementation Libraries.libPhoneNumber
+    implementation Libraries.yearclass
+    implementation Libraries.stetho
+    implementation Libraries.stethoOkHttp
+
+    // Navigation
+    implementation Libraries.navigationControllerCore
+    implementation Libraries.navigationControllerFragments
+    // RxJava
+    implementation Libraries.rxReplayShare
+    implementation Libraries.rxRelay
+
+    // Custom Views
+    implementation Libraries.materialDatePicker
+
+    // UI/Instrumentation Tests
+    androidTestImplementation(Libraries.espresso) {
+        exclude group: 'javax.inject', module: 'support-annotations'
+    }
+    androidTestImplementation Libraries.mockito
+    androidTestImplementation(Libraries.mockitoKotlin) {
+        ['kotlin-stdlib', 'kotlin-reflect'].each { exclude module: it }
+    }
+
+    // Unit Tests
+    testImplementation Libraries.junit
+    testImplementation Libraries.mockito
+    testImplementation Libraries.hamcrestJunit
+    testImplementation Libraries.kotlinJunit
+    testImplementation Libraries.kluent
+    testImplementation(Libraries.mockitoKotlin) {
+        ['kotlin-stdlib', 'kotlin-reflect'].each { exclude module: it }
+    }
+
+    testImplementation(Libraries.robolectric) {
+        exclude group: 'com.google.guava'
+        exclude group: 'com.google.protobuf'
+    }
+
+    // For AS running of robolectric
+    androidTestImplementation Libraries.testRunner
+    androidTestImplementation Libraries.testRules
+
+    testImplementation Libraries.json
+    testImplementation project(':testutils-android')
+
+    debugImplementation Libraries.chuckerDebug
+    releaseImplementation Libraries.chuckerRelease
+}

@@ -1,0 +1,13 @@
+include ':app',
+        ':notifications',
+        ':wallet',
+        ':balance',
+        ':common:interface',
+        ':common:network',
+        ':core',
+        ':coreui',
+        ':nabu',
+        ':sunriver',
+        ':testutils',
+        ':testutils-android',
+        ':veriff'

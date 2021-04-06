@@ -1,0 +1,52 @@
+apply plugin: 'kotlin'
+apply from: '../quality/jacocoKtLibrary.gradle'
+apply from: '../quality/ktlint.gradle'
+
+sourceCompatibility = Versions.javaCompatibilityVersion
+targetCompatibility = Versions.javaCompatibilityVersion
+
+dependencies {
+    implementation Libraries.kotlin
+    api Libraries.koin
+    api Libraries.rxKotlin
+    api project(':balance')
+    api project(':common:interface')
+    api project(':common:network')
+
+    implementation Libraries.moshiKotlin
+    implementation Libraries.sunriver
+
+    // Derivation
+    testImplementation 'io.github.novacrypto:BIP39:2018.10.06'
+
+    // Testing
+    testImplementation Libraries.junit
+    testImplementation Libraries.mockito
+    testImplementation Libraries.json
+    testImplementation Libraries.kluent
+    testImplementation Libraries.mockWebServer
+    testImplementation Libraries.okHttpMock
+    testImplementation Libraries.koinTest
+    testImplementation project(':testutils')
+    testImplementation(Libraries.mockitoKotlin) {
+        ['kotlin-stdlib', 'kotlin-reflect'].each { exclude module: it }
+    }
+}
+
+test {
+    testLogging {
+        events 'skipped', 'failed', 'standardOut', 'standardError'
+    }
+}
+
+compileKotlin {
+    kotlinOptions {
+        jvmTarget = Versions.kotlinJvmTarget
+    }
+}
+
+compileTestKotlin {
+    kotlinOptions {
+        jvmTarget = Versions.kotlinJvmTarget
+    }
+}

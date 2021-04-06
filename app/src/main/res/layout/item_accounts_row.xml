@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:layout_margin="4dp"
+    android:minHeight="72dp">
+
+    <piuk.blockchain.android.ui.customviews.account.AccountInfoCrypto
+        android:id="@+id/account_details"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <piuk.blockchain.android.ui.customviews.account.AccountInfoCryptoArchived
+        android:id="@+id/account_details_archived"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+</FrameLayout>

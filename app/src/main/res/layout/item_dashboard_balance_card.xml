@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/cardLayout"
+    style="@style/DashboardCard">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        style="@style/DashboardCardLayout">
+
+        <TextView
+            android:id="@+id/label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/dashboard_total_balance"
+            style="@style/Text.Light.16"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.elyeproj.loaderviewlibrary.LoaderTextView
+            android:id="@+id/total_balance"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="@dimen/small_margin"
+            style="@style/Text.Standard.24"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/label"
+            app:layout_constraintEnd_toStartOf="@id/guideline"
+            app:width_weight="0.9"
+            app:height_weight="0.8"
+            app:use_gradient="true"
+            tools:text="$19,668.37" />
+
+        <com.elyeproj.loaderviewlibrary.LoaderTextView
+            android:id="@+id/balance_delta_value"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            style="@style/Text.Standard.14"
+            android:layout_marginTop="8dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/total_balance"
+            app:width_weight="0.9"
+            app:height_weight="0.8"
+            app:use_gradient="true"
+            tools:text="$104.84" />
+
+        <com.elyeproj.loaderviewlibrary.LoaderTextView
+            android:id="@+id/balance_delta_percent"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            style="@style/Text.Standard.14"
+            android:layout_marginTop="8dp"
+            android:layout_marginStart="3dp"
+            app:layout_constraintStart_toEndOf="@id/balance_delta_value"
+            app:layout_constraintTop_toBottomOf="@id/total_balance"
+            app:width_weight="0.9"
+            app:height_weight="0.8"
+            app:use_gradient="true"
+            tools:text="7.14%" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/guideline"
+            app:layout_constraintGuide_percent="0.60"
+            android:orientation="vertical"/>
+
+        <com.github.mikephil.charting.charts.PieChart
+            android:id="@+id/pie_chart"
+            android:layout_height="88dp"
+            android:layout_width="88dp"
+            android:layout_marginStart="@dimen/small_margin"
+            android:layout_marginEnd="@dimen/small_margin"
+            app:layout_constraintStart_toEndOf="@id/guideline"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.cardview.widget.CardView>

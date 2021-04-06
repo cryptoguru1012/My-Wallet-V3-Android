@@ -1,0 +1,244 @@
+<resources>
+
+    <style name="Text">
+        <item name="android:textColor">@color/grey_800</item>
+        <item name="android:gravity">start</item>
+    </style>
+
+    <style name="Text.Standard">
+        <item name="fontFamily">@font/inter_medium</item>
+    </style>
+
+    <style name="Text.Standard.12">
+        <item name="android:textSize">12sp</item>
+    </style>
+
+    <style name="Text.Standard.14">
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="Text.Standard.16">
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="Text.Standard.20">
+        <item name="android:textSize">20sp</item>
+    </style>
+
+    <style name="Text.Standard.24">
+        <item name="android:textSize">24sp</item>
+    </style>
+
+    <style name="Text.Standard.32">
+        <item name="android:textSize">32sp</item>
+    </style>
+
+    <style name="Text.Standard.Centered">
+        <item name="android:gravity">center</item>
+    </style>
+
+    <style name="Text.Standard.Centered.12">
+        <item name="android:textSize">12sp</item>
+    </style>
+
+    <style name="Text.Standard.Centered.14">
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="Text.Standard.Centered.16">
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="Text.VeryLight">
+        <item name="android:textColor">@color/grey_400</item>
+    </style>
+
+    <style name="Text.VeryLight.Semibold">
+        <item name="fontFamily">@font/inter_semibold</item>
+    </style>
+
+    <style name="Text.VeryLight.Semibold.16">
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="Text.Light">
+        <item name="android:textColor">@color/grey_600</item>
+    </style>
+
+    <style name="Text.Blue">
+        <item name="android:textColor">@color/blue_600</item>
+    </style>
+
+    <style name="Text.Blue.14">
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="Text.White">
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="Text.Red">
+        <item name="android:textColor">@color/red_400</item>
+    </style>
+
+    <style name="Text.Red.Semibold">
+        <item name="fontFamily">@font/inter_semibold</item>
+    </style>
+
+    <style name="Text.Red.Semibold.12">
+        <item name="android:textSize">12sp</item>
+    </style>
+
+    <style name="Text.Blue.Semibold">
+        <item name="fontFamily">@font/inter_semibold</item>
+    </style>
+
+    <style name="Text.Blue.Semibold.12">
+        <item name="android:textSize">12sp</item>
+    </style>
+
+    <style name="Text.Blue.Semibold.16">
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="Text.Blue.Semibold.20">
+        <item name="android:textSize">20sp</item>
+    </style>
+
+    <style name="Text.Blue.Semibold.Centered">
+        <item name="android:gravity">center</item>
+    </style>
+
+    <style name="Text.Blue.Semibold.Centered.14">
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="Text.Blue.Semibold.Centered.16">
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="Text.White.Semibold">
+        <item name="fontFamily">@font/inter_semibold</item>
+    </style>
+
+    <style name="Text.White.Semibold.Centered">
+        <item name="android:gravity">center</item>
+    </style>
+
+    <style name="Text.Light.Centered">
+        <item name="android:gravity">center</item>
+    </style>
+
+    <style name="Text.White.Semibold.Centered.16">
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="Text.Light.12">
+        <item name="android:textSize">12sp</item>
+    </style>
+
+    <style name="Text.Light.Centered.14">
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="Text.Light.14">
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="Text.Light.16">
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="Text.Standard.Centered.20">
+        <item name="android:textSize">20sp</item>
+    </style>
+
+    <style name="Text.Standard.Centered.24">
+        <item name="android:textSize">24sp</item>
+    </style>
+
+    <style name="Text.Standard.Centered.36">
+        <item name="android:textSize">36sp</item>
+    </style>
+
+    <style name="Text.Standard.Centered.48">
+        <item name="android:textSize">48sp</item>
+    </style>
+
+    <style name="Text.Semibold">
+        <item name="fontFamily">@font/inter_semibold</item>
+    </style>
+
+    <style name="Text.Semibold.12">
+        <item name="android:textSize">12sp</item>
+    </style>
+
+    <style name="Text.Semibold.14">
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="Text.Semibold.16">
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="Text.Semibold.20">
+        <item name="android:textSize">20sp</item>
+    </style>
+
+    <style name="Text.Semibold.32">
+        <item name="android:textSize">32sp</item>
+    </style>
+
+    <style name="Text.Semibold.40">
+        <item name="android:textSize">40sp</item>
+    </style>
+
+    <style name="Text.Semibold.48">
+        <item name="android:textSize">48sp</item>
+    </style>
+
+    <style name="Text.Semibold.Centered">
+        <item name="android:gravity">center</item>
+    </style>
+
+    <style name="Text.Semibold.Centered.20">
+        <item name="android:textSize">20sp</item>
+    </style>
+
+    <style name="Text.Semibold.Light">
+        <item name="android:textColor">@color/grey_600</item>
+    </style>
+
+    <style name="Text.Semibold.Light.14">
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="Text.Bold">
+        <item name="fontFamily">@font/inter_bold</item>
+    </style>
+
+    <style name="Text.Bold.14">
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="Text.Bold.Centered">
+        <item name="android:gravity">center</item>
+    </style>
+
+    <style name="Text.Bold.Centered.14">
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="Text.Error">
+        <item name="android:textColor">@color/red_600</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:background">@drawable/rounded_error_text_background</item>
+    </style>
+
+    <style name="Text.Info">
+        <item name="android:textColor">@color/blue_600</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:background">@drawable/rounded_info_text_bkgd</item>
+    </style>
+
+</resources>

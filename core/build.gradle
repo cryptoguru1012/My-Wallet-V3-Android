@@ -1,0 +1,80 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply from: '../quality/jacocoLibrary.gradle'
+apply from: '../quality/ktlint.gradle'
+
+android {
+    compileSdkVersion Versions.compileSdk
+    buildToolsVersion Versions.buildTools
+    defaultConfig {
+        minSdkVersion Versions.minSdk
+        targetSdkVersion Versions.targetSdk
+        versionCode Versions.versionCode
+        versionName Versions.versionName
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    testOptions {
+        // Always show the result of every unit test, even if it passes.
+        unitTests.all {
+            testLogging {
+                events 'skipped', 'failed', 'standardOut', 'standardError'
+            }
+            reports.junitXml.destination = file('../build/test-results/')
+        }
+    }
+
+    lintOptions {
+        baseline file("lint-baseline.xml")
+        warningsAsErrors true
+        abortOnError true
+    }
+}
+
+dependencies {
+    api project(':wallet')
+    api project(':balance')
+    api project(':sunriver')
+    api project(':common:network')
+    api project(':common:interface')
+
+    // Networking
+    api(Libraries.retrofit) { exclude module: 'okhttp' }
+    api Libraries.retrofitJacksonConverter
+    api Libraries.retrofitRxMoshiConverter
+    api Libraries.retrofitRxJavaAdapter
+    api Libraries.okHttpInterceptor
+    api Libraries.koin
+
+    // RxJava
+    api Libraries.rxJava
+    api Libraries.rxKotlin
+    api Libraries.rxAndroid
+    // Logging
+    api Libraries.timber
+
+    // Firebase
+    implementation (Libraries.firebaseConfig) {
+        exclude group:'com.google.protobuf', module: 'protobuf-lite'
+    }
+
+    // Unit Test dependencies
+    testImplementation Libraries.json
+    testImplementation Libraries.junit
+    testImplementation Libraries.mockito
+    testImplementation Libraries.hamcrestJunit
+    testImplementation Libraries.kotlinJunit
+    testImplementation Libraries.kluent
+    testImplementation(Libraries.mockitoKotlin) {
+        ['kotlin-stdlib', 'kotlin-reflect'].each { exclude module: it }
+    }
+    testImplementation project(':testutils')
+    testImplementation project(':testutils-android')
+
+}

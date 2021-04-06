@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="nav_icons">@color/grey_400</color>
+    <color name="nav_menu_text">@color/grey_600</color>
+    <color name="nav_logo">@color/grey_800</color>
+
+    <color name="pit_text_title">@color/grey_800</color>
+    <color name="pit_text_heading">@color/blue_800</color>
+    <color name="pit_text_body">@color/grey_800</color>
+    <color name="pit_text_body_app_able_to_text">@color/green_200</color>
+
+    <!-- Toasts -->
+    <color name="toast_error_background">@color/red_100</color>
+    <color name="toast_error_text">@color/red_800</color>
+    <color name="toast_warning_background">@color/orange_100</color>
+    <color name="toast_warning_text">@color/orange_800</color>
+    <color name="toast_info_background">@color/green_100</color>
+    <color name="toast_info_text">@color/green_800</color>
+
+    <!-- ZXing -->
+    <color name="qr_viewfinder_reticle_outline">@color/white</color>
+    <color name="qr_viewfinder_bg">@color/grey_fade_900</color>
+
+    <color name="primary_navy_dark">@color/blue_900</color>
+    <color name="primary_blue_light">@color/blue_200</color>
+    <color name="primary_blue_accent">@color/blue_600</color>
+    <color name="primary_blue_medium">@color/blue_800</color>
+    <color name="primary_grey">@color/grey_600</color>
+    <color name="primary_navy_grey">@color/grey_600</color>
+    <color name="primary_navy_medium">@color/blue_800</color>
+    <color name="primary_blue_dark">@color/grey_900</color>
+
+    <color name="secondary_yellow_light">@color/orange_300</color>
+    <color name="secondary_yellow_medium">@color/orange_400</color>
+    <color name="secondary_teal_light">@color/teal_300</color>
+    <color name="secondary_teal_medium">@color/teal_500</color>
+    <color name="secondary_pink_light">@color/red_300</color>
+    <color name="secondary_red_light">@color/red_500</color>
+
+    <!-- For warning messages -->
+    <color name="product_green_medium">@color/green_600</color>
+    <color name="product_red_medium">@color/red_600</color>
+    <color name="product_orange_medium">@color/orange_600</color>
+
+    <!-- Specified in designs but not named in spec -->
+    <color name="primary_grey_dark">@color/grey_800</color>
+    <color name="primary_grey_medium">@color/grey_600</color>
+    <color name="primary_grey_light">@color/grey_400</color>
+    <color name="primary_grey_lightest">@color/grey_000</color>
+
+    <color name="product_red_sent">@color/red_500</color>
+    <color name="product_red_sent_50">@color/red_200</color>
+    <color name="product_red_error_12">@color/red_000</color>
+    <color name="product_green_received">@color/teal_500</color>
+    <color name="product_green_received_50">@color/teal_200</color>
+    <color name="product_grey_watch_only">@color/grey_600</color>
+    <color name="product_grey_headers">@color/grey_800</color>
+    <color name="product_light_blue_background">@color/blue_100</color>
+    <color name="product_light_gray_background">@color/grey_000</color>
+    <color name="product_light_gray_divider">@color/grey_100</color>
+
+    <!-- For the pax coming soon screen -->
+    <color name="soon_title_blue">@color/grey_800</color>
+    <color name="soon_text_grey">@color/grey_600</color>
+
+    <!-- Non-official Cryptocurrency colours -->
+    <color name="color_bitcoin_logo">@color/btc</color>
+    <color name="color_bitcoin_cash_logo">@color/bch</color>
+    <color name="color_ether_logo">@color/eth</color>
+    <color name="color_stellar_logo">@color/xlm</color>
+    <color name="color_pax_logo">@color/pax</color>
+    <color name="color_algo_logo">@color/algo</color>
+    <color name="color_usdt_logo">@color/usdt</color>
+    <color name="color_dgld_logo">@color/dgld</color>
+
+    <!-- Non-Spendable colours -->
+    <color name="non_spendable_button_background">@color/grey_100</color>
+    <color name="non_spendable_button_border">@color/grey_300</color>
+
+    <!-- Homebrew Exchange colors -->
+    <color name="exchange_confirmation_blue_bg">@color/blue_100</color>
+    <color name="exchange_locked_blue_bg">@color/blue_800</color>
+    <color name="tiers_splash_blue_text">@color/blue_800</color>
+    <color name="tiers_splash_grey_text">@color/grey_600</color>
+    <color name="tiers_get_crypto_blue">@color/blue_900</color>
+
+    <!-- swap announcement card colors -->
+    <color name="swap_announcement_card_background">@color/grey_900</color>
+
+    <!-- swap error dialog colors -->
+    <color name="info_dialog_title_text_color">@color/grey_800</color>
+    <color name="swap_error_dialog_message_text_color">@color/grey_600</color>
+
+    <!-- Used for hint/disclaimer/footnote text -->
+    <color name="product_gray_hint">@color/grey_300</color>
+
+    <!-- error dlg colors -->
+    <color name="bottom_error_dialog_background">@color/white</color>
+    <color name="bottom_error_title_color">@color/blue_800</color>
+
+    <!-- Xlm Airdrop Bottom Dialog colors -->
+    <color name="xlm_dialog_text_title">@color/blue_800</color>
+    <color name="xlm_dialog_text_body">@color/grey_600</color>
+    <color name="xlm_dialog_background">@color/white</color>
+
+    <color name="bottom_dialog_background">@color/white</color>
+
+    <!-- Stablecoin announcement colors -->
+    <color name="stablecoin_announcement_text_description">@color/grey_800</color>
+
+    <!-- kyc colors -->
+    <color name="onfidoColorPrimary">@color/primary_navy_medium</color>
+    <color name="onfidoColorPrimaryDark">@color/primary_navy_dark</color>
+    <color name="onfidoTextColorPrimary">@color/white</color>
+    <color name="onfidoTextColorSecondary">@color/white</color>
+    <color name="onfidoColorAccent">@color/primary_blue_accent</color>
+
+    <color name="kyc_progress_text_blue">@color/blue_800</color>
+    <color name="kyc_progress_text_white">@color/white</color>
+    <color name="kyc_progress_green">@color/green_600</color>
+    <color name="kyc_splash_title_black">@color/grey_600</color>
+    <color name="kyc_in_progress">@color/orange_400</color>
+
+    <color name="kyc_error_title">@color/blue_800</color>
+
+    <!-- app colors -->
+    <color name="exchange_history_sent">@color/blue_800</color>
+    <color name="exchange_history_received">@color/green_600</color>
+    <color name="exchange_history_description">@color/grey_800</color>
+    <color name="trade_row_background">@color/grey_000</color>
+    <color name="in_progress">@color/orange_400</color>
+    <color name="nabu_divider_grey">@color/grey_100</color>
+    <color name="help_text_black">@color/grey_600</color>
+    <color name="keyboard_guideline_grey">@color/grey_100</color>
+
+    <color name="bottom_toolbar_icon_active">@color/blue_600</color>
+    <color name="bottom_toolbar_icon_inactive">@color/grey_400</color>
+
+    <color name="product_grey_transferred">#7b9eb1</color>       <!-- still used? -->
+    <color name="product_grey_transferred_50">#807b9eb1</color>
+    <color name="pit_card_gradient_dark">@color/black_100</color>
+    <color name="pit_card_gradient_light">@color/blue_1000</color>  <!-- still used? -->
+
+    <color name="prefs_status_background_blue">@color/blue_400</color>
+    <color name="prefs_status_background_green">@color/green_200</color>
+    <color name="pit_bottom_dialog_buttons_text_color">@color/blue_400</color>
+    <color name="pit_bottom_dialog_divider">@color/grey_100</color>
+    <color name="swap_intro_selected_color">@color/blue_400</color>
+    <color name="swap_intro_unselected_color">#D9F2FB</color>
+</resources>

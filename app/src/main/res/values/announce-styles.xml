@@ -1,0 +1,7 @@
+<resources>
+
+    <style name="AnnounceCardStyle" parent="DefaultCardStyle">
+        <item name="cardBackgroundColor">@color/announce_background</item>
+    </style>
+
+</resources>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="ic_launcher_background">#FFFFFF</color>
+
+    <color name="default_tour_pulse_color">@color/blue_600</color>
+
+    <color name="pit_application_able_to">@color/green_200</color>
+    <color name="pit_application_not_able">@color/red_900</color>
+    <color name="benefits_text_color">@color/grey_800</color>
+
+    <color name="mobile_notice_dialog_title">@color/grey_800</color>
+    <color name="mobile_notice_dialog_body">@color/grey_800</color>
+    <color name="mobile_notice_dialog_button_background">@color/blue_600</color>
+    <color name="pit_email_veriff_description">@color/grey_800</color>
+    <color name="pit_email_veriff_address">@color/blue_500</color>
+
+    <color name="announce_background">@color/white</color>
+    <color name="default_announce_button">@color/blue_600</color>
+
+    <color name="notification_tint">@color/blue_600</color>
+    <color name="tour_icon_tint">@color/blue_600</color>
+
+    <color name="dashboard_delta_positive">@color/green_500</color>
+    <color name="dashboard_delta_negative">@color/red_600</color>
+
+    <color name="dashboard_chart_negative">@color/red_500</color>
+    <color name="dashboard_chart_positive">@color/green_500</color>
+    <color name="dashboard_chart_unknown">@color/grey_400</color>
+    <color name="dashboard_chart_indicator_color">@color/blue_600</color>
+    <color name="simple_buy_snackbar">@color/grey_900</color>
+    <color name="white_with_opacity">#96ffffff</color>
+</resources>

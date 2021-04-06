@@ -1,0 +1,341 @@
+opt_out_usage
+
+default_platform :android
+platform :android do
+
+    desc "Build using the given environment (default: Staging) and build type (default: Debug)."
+    lane :build do | options |
+
+      environment = options[:environment] ? options[:environment] : "Staging"
+
+      build_type = options[:build_type] ? options[:build_type] : "Debug"
+
+      gradle(
+        task: 'assemble',
+        build_type: build_type,
+        flavor: 'Env' + environment,
+        print_command: false
+      )
+
+    end
+
+    desc "Build Staging Release"
+    lane :staging_release do
+
+      gradle(
+        task: 'bundle',
+        build_type: 'Release',
+        flavor: 'EnvStaging',
+        print_command: false
+      )
+
+    end
+
+    desc "Build Prod Debug"
+    lane :prod_debug do
+
+      gradle(
+        task: 'assemble',
+        build_type: 'Debug',
+        flavor: 'EnvProd',
+        print_command: false
+      )
+
+    end
+
+    desc "Build Prod Release"
+    lane :prod_release do
+
+      gradle(
+        task: 'bundle',
+        build_type: 'Release',
+        flavor: 'EnvProd',
+        print_command: false
+      )
+
+    end
+
+
+    desc "Run tests. Optional flags: environment (Staging), build_type (Debug), module(app), test_name (runs all by default). Environment and build_type are app module-only."
+    lane :test do | options |
+
+      environment = options[:environment] ? options[:environment] : "Staging"
+
+      build_type = options[:build_type] ? options[:build_type] : "Debug"
+
+      if options[:test_name]
+
+        if options[:module] != "app"
+
+          gradle(
+            task: ":" + options[:module] + ":test",
+            flags: "--tests " + options[:test_name]
+          )
+
+        else
+
+          gradle(
+            task: "test",
+            build_type: build_type + "UnitTest",
+            flavor: 'Env' + environment,
+            flags: "--tests " + options[:test_name]
+          )
+
+        end
+
+      else
+
+        if options[:module] != "app"
+
+          gradle(
+            task: ":" + options[:module] + ":test",
+          )
+
+        else
+
+          gradle(
+            task: "test",
+            build_type: build_type + "UnitTest",
+            flavor: 'Env' + environment,
+          )
+
+        end
+        
+      end
+
+    end
+
+
+    desc "Submit a release build to the Play Store internal test track."
+    lane :upload_to_internal_track do
+
+      upload_to_play_store(
+          track: 'internal',
+          validate_only: 'true',
+      )
+
+    end
+
+
+    desc "Get the configuration files from the Android credentials repository."
+    lane :credentials do
+
+      credentials_folder = File.expand_path("../../wallet-android-credentials/")
+      if !File.exist? credentials_folder
+
+        sh("echo \"--------------Cloning Credentials Repo--------------\"")
+        sh("git clone git@github.com:blockchain/wallet-android-credentials.git " + credentials_folder)
+
+      end
+
+      sh("rm -rf ../app/src/env")
+
+      sh("echo \"--------------Pulling Latest Credentials--------------\"")
+      sh("( cd " + credentials_folder + " ; git pull )")
+
+      sh("echo \"--------------Unzip Firebase Credentials into app/src--------------\"")
+      sh("unzip -o " + credentials_folder + "/env.zip -d ../app/src")
+
+      sh("rm -rf ../app/src/__MACOSX")
+
+      sh("echo \"--------------Copying Secrets Properties--------------\"")
+      sh("cp " + credentials_folder + "/secrets.properties ../app")
+
+    end
+
+
+    desc "Bundle of build, perform checks and run tests on CI."
+    lane :ci_run_tests do
+
+      ci_credentials
+
+      ci_lint
+
+      ci_build(
+        environment: "Prod",
+        build_type: "Debug"
+      )
+
+      ci_test
+      
+    end
+    
+
+    desc "Get the configuration files from the Android credentials repository on CI."
+    lane :ci_credentials do
+
+      sh("echo \"--------------Cloning Credentials Repo--------------\"")
+      sh("git clone $CREDENTIALS_REPO ../../tmp/credentials")
+
+      sh("echo \"--------------Unzip Firebase Credentials--------------\"")
+      sh("unzip ../../tmp/credentials/env.zip  -d ../../tmp/credentials/")
+
+      sh("echo \"--------------Copying Firebase Credentials--------------\"")
+      sh("cp -r ../../tmp/credentials/env ../app/src")
+
+      sh("echo \"--------------Copying Secrets Properties--------------\"")
+      sh("cp ../../tmp/credentials/secrets.properties ../app")
+    end
+
+
+    desc "Upload to AppCenter."
+    lane :ci_upload_to_appcenter do | options |
+      #  Expected env vars: 
+      #  APPCENTER_API_TOKEN, APPCENTER_OWNER_NAME, APPCENTER_DISTRIBUTE_FILE,
+      #  APPCENTER_DISTRIBUTE_DESTINATIONS APPCENTER_DISTRIBUTE_RELEASE_NOTES and APPCENTER_APP_NAME
+      file_path = options[:appcenter_file_path] ? options[:appcenter_file_path] : ENV["APPCENTER_DISTRIBUTE_FILE"]
+      app_name = options[:app_name] ? options[:app_name] : ENV["APPCENTER_APP_NAME"]
+
+      appcenter_upload(
+        app_name: app_name,
+        file: file_path
+      )
+      
+    end
+
+    desc "Export the build path to environment variables for upload. Optional flags: export_bundle (APK is default), do_sign (False is default)."
+    lane :ci_export_build do | options |
+
+      file_path = options[:build_path]
+
+      do_sign = options[:do_sign] ? "true" : "false"
+
+      if options[:export_bundle]
+
+        sh("./../scripts/ci_export_aab.sh " + file_path + " " + do_sign)
+
+      else
+
+        sh("./../scripts/ci_export_apk.sh " + file_path + " " + do_sign)
+        
+      end
+      
+    end
+
+
+    desc "Tests to run on CI"
+    lane :ci_test do
+      gradle(
+        task: "coveralls",
+        flags: "-Dpre-dex=false -Pkotlin.incremental=false --stacktrace --no-daemon --max-workers 2"
+      )
+    end
+
+
+    desc "Build to run on CI. Optional flags: copy_credentials, build_bundle (APK is default), export_build(False is default), do_sign (False is default)."
+    lane :ci_build do | options |
+
+      environment = options[:environment]
+
+      build_type = options[:build_type]
+
+      if options[:copy_credentials]
+
+        ci_credentials
+
+      end
+
+      file_path = ""
+
+      if options[:build_bundle]
+
+        gradle(
+          task: 'bundle',
+          build_type: build_type,
+          flavor: 'Env' + environment,
+          print_command: false,
+          flags: "--info"
+        )
+
+        file_path = "../app/build/outputs/bundle/env" + environment + build_type
+
+      else
+
+        gradle(
+          task: 'assemble',
+          build_type: build_type,
+          flavor: 'Env' + environment,
+          print_command: false,
+          flags: "--info --stacktrace --no-daemon"
+        )
+
+        file_path = "../app/build/outputs/apk/env" + environment + "/" + build_type.downcase
+
+      end
+
+      if options[:export_build]
+
+        ci_export_build(
+          build_path: file_path,
+          do_sign: options[:do_sign],
+          export_bundle: options[:build_bundle]
+        )
+          
+      end
+
+    end
+
+
+    desc "Checks to run on CI"
+    lane :ci_lint do
+
+      gradle(
+        task: 'lint',
+        build_type: 'Debug',
+        flavor: 'EnvProd',
+        print_command: false,
+        flags: "lintDebug ktlint -Dpre-dex=false -Pkotlin.incremental=false --no-daemon --stacktrace"
+      )
+    end
+
+
+    private_lane :ship_it do
+      rand = Random.rand(0..1)
+      if rand == 0
+        squirrel
+      elsif rand == 1
+        boat
+      end
+    end
+    
+
+    def squirrel
+      puts "
+        !!!!
+      !!!!!!!!
+    !!!!!!!!!!!   O_O
+    !!!  !!!!!!! /@ @\\
+          !!!!!! \\ x /
+          !!!!!!/ m  !m
+           !!!!/ __  |
+           !!!!|/  \\__
+            !!!\\______\\
+      "
+    end
+
+
+    def boat
+      puts "
+         .  o ..
+         o . o o.o
+              ...oo
+                __[]__
+             __|_o_o_o\__
+             \\\"\"\"\"\"\"\"\"\"\"/
+              \\. ..  . /
+         ^^^^^^^^^^^^^^^^^^^^
+      "
+    end
+
+
+    after_all do |lane|
+      # This block is called, only if the executed lane was successful
+      ship_it
+    end
+
+
+    error do |lane, exception|
+      # This block is called, only if the executed lane failed with an exception
+    end
+    
+end

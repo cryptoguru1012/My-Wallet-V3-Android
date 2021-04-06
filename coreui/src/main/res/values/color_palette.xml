@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- define the palette of colours available to the app -->
+    <!-- don't use these directly in the code/resources but -->
+    <!-- rather reference them though resources defined -->
+    <!-- in colors.xml, so we can more easily update them -->
+    <!-- in future -->
+
+    <color name="white">#FFFFFF</color>
+    <color name="faded_white">#99FFFFFF</color>
+    <color name="black">#000000</color>
+
+    <color name="red_000">#FFECEB</color>
+    <color name="red_100">#FFD9D6</color>
+    <color name="red_200">#FFC3BF</color>
+    <color name="red_300">#F6A7A1</color>
+    <color name="red_400">#FF3344</color>
+    <color name="red_500">#EA5B50</color>
+    <color name="red_600">#D93B30</color>
+    <color name="red_800">#99180F</color>
+    <color name="red_900">#EA1F30</color>
+
+    <color name="orange_000">#FFF2E5</color>
+    <color name="orange_100">#FAE4CD</color>
+    <color name="orange_300">#FFC994</color>
+    <color name="orange_400">#FFB266</color>
+    <color name="orange_600">#F28B24</color>
+    <color name="orange_800">#B34400</color>
+
+    <color name="green_000">#E6FAEC</color>
+    <color name="green_100">#D1F0DB</color>
+    <color name="green_200">#59CD93</color>
+    <color name="green_400">#3EDC89</color>
+    <color name="green_500">#00B26B</color>
+    <color name="green_600">#00875A</color>
+    <color name="green_800">#04593D</color>
+
+    <color name="green_500_fade_15">#2604593D</color>
+
+    <color name="grey_000">#F0F2F7</color>
+    <color name="grey_100">#DFE3EB</color>
+    <color name="grey_200">#CCD2DE</color>
+    <color name="grey_300">#B1B8C7</color>
+    <color name="grey_400">#98A1B2</color>
+    <color name="grey_600">#677185</color>
+    <color name="grey_700">#50596B</color>
+    <color name="grey_800">#353F52</color>
+    <color name="grey_900">#121D33</color>
+
+    <color name="grey_fade_400">#6605183D</color>
+    <color name="grey_fade_900">#EE121D33</color>
+
+    <color name="blue_000">#ECF5FE</color>
+    <color name="blue_100">#D8EBFD</color>
+    <color name="blue_200">#BBDBFC</color>
+    <color name="blue_400">#10ADE4</color>
+    <color name="blue_500">#074B7A</color>
+    <color name="blue_600">#0C6CF2</color>
+    <color name="blue_700">#2B58A3</color>
+    <color name="blue_800">#144699</color>
+    <color name="blue_900">#0D3578</color>
+    <color name="blue_1000">#4C18BA</color>
+
+    <color name="purple_000">#EFECFE</color>
+
+    <color name="grey_100_with_opacity">#66DFE3EB</color>
+    <color name="grey_800_with_opacity">#66353F52</color>
+
+    <color name="blue_600_with_opacity">#660C6CF2</color>
+    <color name="blue_600_disabled">#639DED</color>
+
+    <color name="red_600_with_opacity">#66D93B30</color>
+
+    <color name="black_100">#0E1716</color>
+
+    <color name="teal_200">#AEE1E6</color>
+    <color name="teal_300">#6CD0D9</color>
+    <color name="teal_500">#12A5B2</color>
+
+    <color name="bch_bkgd">#E8F3DC</color>
+    <color name="pax_bkgd">#CCDCD5</color>
+    <color name="ether_bkgd">@color/purple_000</color>
+    <color name="btc_bkgd">@color/orange_000</color>
+    <color name="xlm_bkgd">@color/grey_000</color>
+    <color name="usdt_bkgd">#2626A17B</color>
+    <color name="ltc_bkgd">#26BFBBBB</color>
+    <color name="xrp_bkgd">#26000000</color>
+    <color name="algo_bkgd">#26000000</color>
+    <color name="dgld_bkgd">#26FFE738</color>
+
+    <color name="btc">#FF9B22</color>
+    <color name="bch">#8DC351</color>
+    <color name="eth">#473BCB</color>
+    <color name="xlm">#000000</color>
+    <color name="pax">#00522C</color>
+    <color name="usdt">#26A17B</color>
+    <color name="ltc">#BFBBBB</color>
+    <color name="xrp">#000000</color>
+    <color name="algo">#000000</color>
+    <color name="dgld">#FFE738</color>
+    <color name="dgld_chart">#000000</color>
+
+</resources>
+
+

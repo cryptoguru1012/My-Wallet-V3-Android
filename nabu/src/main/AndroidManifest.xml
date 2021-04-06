@@ -1,0 +1,9 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="om.blockchain.swap.nabu">
+    <application>
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="${PLACES_KEY}" />
+
+    </application>
+</manifest>

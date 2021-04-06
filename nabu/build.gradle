@@ -1,0 +1,116 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'com.novoda.build-properties'
+apply from: '../quality/jacocoLibrary.gradle'
+apply from: '../quality/ktlint.gradle'
+
+buildProperties {
+    secrets {
+        using(file('../app/secrets.properties')) | file('../app/secretsDefaults.properties')
+    }
+}
+
+android {
+    compileSdkVersion Versions.compileSdk
+    buildToolsVersion Versions.buildTools
+    defaultConfig {
+        minSdkVersion Versions.minSdk
+        targetSdkVersion Versions.targetSdk
+        versionCode Versions.versionCode
+        versionName Versions.versionName
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+        buildConfigBoolean "USE_MOCK_SIMPLE_BUY_BACKEND", false
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    buildTypes {
+        release {
+            consumerProguardFiles 'proguard-rules.pro'
+            manifestPlaceholders = [PLACES_KEY: buildProperties.secrets['placesReleaseKey'].string]
+        }
+        debug {
+            manifestPlaceholders = [PLACES_KEY: buildProperties.secrets['placesDebugKey'].string]
+        }
+    }
+
+    testOptions {
+        // Always show the result of every unit test, even if it passes.
+        unitTests.all {
+            testLogging {
+                events 'skipped', 'failed', 'standardOut', 'standardError'
+            }
+            reports.junitXml.destination = file('../build/test-results/')
+        }
+    }
+
+    lintOptions {
+        baseline file("lint-baseline.xml")
+        warningsAsErrors true
+        abortOnError true
+    }
+}
+
+androidExtensions {
+    experimental = true
+}
+
+dependencies {
+    implementation project(':common:network')
+    implementation project(':common:interface')
+    implementation project(':balance')
+    implementation project(':wallet')
+
+    api project(':notifications')
+    implementation project(':veriff')
+
+    implementation Libraries.kotlin
+    implementation Libraries.moshiKotlin
+    implementation Libraries.retrofitRxMoshiConverter
+    implementation Libraries.retrofitRxJavaAdapter
+    implementation Libraries.koin
+    implementation Libraries.rxKotlin
+    implementation Libraries.retrofit
+    implementation Libraries.cardForm
+
+    // Testing
+    testImplementation project(':testutils')
+    testImplementation project(':testutils-android')
+    testImplementation project(':core')
+
+    testImplementation Libraries.junit
+    testImplementation Libraries.mockito
+    testImplementation Libraries.kluent
+    testImplementation Libraries.koinTest
+    testImplementation Libraries.hamcrestJunit
+    testImplementation Libraries.kotlinJunit
+    testImplementation Libraries.okHttpMock
+    testImplementation Libraries.mockWebServer
+    testImplementation(Libraries.mockitoKotlin) {
+        ['kotlin-stdlib', 'kotlin-reflect'].each { exclude module: it }
+    }
+}
+
+/*
+test {
+    testLogging {
+        events 'skipped', 'failed', 'standardOut', 'standardError'
+    }
+}
+
+compileKotlin {
+    kotlinOptions {
+        jvmTarget = Versions.kotlinJvmTarget
+    }
+}
+compileTestKotlin {
+    kotlinOptions {
+        jvmTarget = Versions.kotlinJvmTarget
+    }
+}
+*/

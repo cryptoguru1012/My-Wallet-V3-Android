@@ -1,0 +1,95 @@
+apply plugin: 'java-library'
+apply plugin: 'kotlin'
+apply from: 'integrationTest.gradle'
+apply from: '../quality/jacocoKtLibrary.gradle'
+apply from: '../quality/ktlint.gradle'
+
+group = 'info.blockchain'
+
+sourceCompatibility = Versions.javaCompatibilityVersion
+targetCompatibility = Versions.javaCompatibilityVersion
+
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+}
+
+task sourceJar(type: Jar, dependsOn: classes) {
+    classifier = 'sources'
+    from sourceSets.main.allSource
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+}
+
+dependencies {
+    api project(':balance')
+    api project(':common:network')
+    api project(':common:interface')
+    // Expose Kotlin to all parent modules
+    api Libraries.kotlin
+    api files('libs/bitcoinj-core-0.15-SNAPSHOT.jar')
+    api files('libs/api-client-0.1.17-SNAPSHOT.jar')
+    api(Libraries.web3j) { exclude module: 'jackson' }
+    implementation Libraries.spongyCastle
+    compileOnly Libraries.json
+    // Networking
+    implementation Libraries.jacksonCore
+    api Libraries.moshi
+    implementation(Libraries.retrofit) { exclude module: 'okhttp' }
+    implementation Libraries.retrofitJacksonConverter
+    implementation Libraries.retrofitRxMoshiConverter
+    implementation Libraries.retrofitRxJavaAdapter
+    implementation Libraries.okHttpInterceptor
+    // Utils
+    implementation(Libraries.jjwt) { exclude module: 'jackson' }
+    implementation Libraries.commonsIo
+    implementation Libraries.commonsCli
+    implementation Libraries.lambdaWorks
+    api Libraries.commonsCodec
+    api Libraries.commonsLang
+    api Libraries.urlBuilder
+    // Logging
+    implementation Libraries.slf4j
+    // BitcoinJ dependencies
+    implementation Libraries.protobuf
+    implementation Libraries.findbugs
+    api Libraries.guava
+
+    // Injection
+    api Libraries.koin
+
+    // Rx
+    implementation Libraries.rxReplayShare
+
+    // Testing
+    testImplementation project(':testutils')
+    testImplementation Libraries.junit
+    testImplementation Libraries.mockito
+    testImplementation Libraries.json
+    testImplementation Libraries.kluent
+    testImplementation Libraries.koinTest
+    testImplementation Libraries.mockWebServer
+    testImplementation Libraries.okHttpMock
+    testImplementation(Libraries.mockitoKotlin) {
+        ['kotlin-stdlib', 'kotlin-reflect'].each { exclude module: it }
+    }
+}
+
+test {
+    testLogging {
+        events 'skipped', 'failed', 'standardOut', 'standardError'
+    }
+}
+
+compileKotlin {
+    kotlinOptions {
+        jvmTarget = Versions.kotlinJvmTarget
+    }
+}
+compileTestKotlin {
+    kotlinOptions {
+        jvmTarget = Versions.kotlinJvmTarget
+    }
+}
